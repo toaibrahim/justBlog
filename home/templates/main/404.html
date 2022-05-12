@@ -1,0 +1,26 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Blog{% endblock %}
+
+{% block body %}
+
+<br>
+<br>
+<br>
+<br>
+
+<div class="container">
+    <h3>Page not Found</h3>
+    <p>This page is not found or Missing on the site please go back to home </p>
+    <a href="{% url 'main:home' %}"><button class="btn btn-primary">Go Back Home</button></a>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+{% endfor %}

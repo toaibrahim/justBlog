@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Blog{% endblock %}
+
+{% block body %}
+
+{{form.media}}
+<div class="wrapper">
+    
+    <div class="inner">
+        
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h3>{{title}} Your Blog Post</h3>
+            
+            {{form | crispy}}
+
+            <button type="submit">Add Post</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Blog{% endblock %}
+
+{% block body %}
+
+{% if form.errors %}
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+    <p>Something went wrong please try again</p>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endif %}
+
+
+
+
+<div class="wrapper">
+    <div class="inner">
+        <form action="" method="post">
+            {% csrf_token %}
+            <h3>Registration Form</h3>
+            {{form|crispy}}
+            <button type="submit">Register</button>
+        </form>
+        <div class="image-holder" style="width: 270px;height: 646px;margin-left: -40px;margin-top: 40px;">
+            <img style="width: 100%;height: 100%;object-fit: cover;" src="{% static 'img/registration-form-5.jpg' %}" alt="">
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

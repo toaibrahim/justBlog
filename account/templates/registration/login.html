@@ -1,0 +1,51 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Login{% endblock %}
+
+{% block body %}
+
+
+
+
+
+<div class="wrapper">
+    <div class="inner">
+        <form action="" method="post">
+            {% csrf_token %}
+            <h3>Login Form</h3>
+
+            <div class="form-wrapper">
+                <label for="username" class="label-input">Username</label>
+                <input id="username" name="username" type="text" class="form-control">
+            </div>
+            <div class="form-wrapper">
+                <label for="password" class="label-input">Password</label>
+                <input id="password" name="password" type="password" class="form-control">
+            </div>
+            <button type="submit">Login</button>
+
+
+            <!--<div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input name="username" type="text" class="form-control" id="username" aria-describedby="emailHelp">
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input name="password" type="password" class="form-control" id="exampleInputPassword1">
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>-->
+
+        </form>
+        <div class="image-holder">
+            <img src="{% static 'img/registration-form-5.jpg' %}" alt="">
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

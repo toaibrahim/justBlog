@@ -1,0 +1,135 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Blog{% endblock %}
+
+{% block body %}
+
+
+<section id="article-section" class="line">
+    <div class="margin">
+       <!-- ARTICLES -->             
+       <div class="s-12 l-9">
+          <!-- ARTICLE 1 -->               
+          <article class="margin-bottom">
+             <div class="post-1 line">
+                <!-- image -->                 
+                <div class="s-12 l-11 post-image" style="width: 717px;height: 340px;">                   
+                   <img src="{{article.image.url}}" alt="Fashion" style="width: 100%;height: 100%;object-fit: cover;">              
+                </div>
+                <!-- date -->                 
+                <div class="s-12 l-1 post-date">
+                   <p class="date">{{article.created_at.date}}</p>
+                </div>
+                <p>{{article.view_count}}</p>
+             </div>
+             <!-- text -->                 
+             <div class="post-text">
+                <h1>{{article.title}}</h1>
+                <hr>
+                <p>{{article.content|safe}}</p>
+                <nav aria-label="..." style="background-color: #353b48;margin-top: 50px;margin-left: 35%;">
+                  <ul class="pagination">
+                     {% if article.previous_post %}
+                    <li class="page-item">
+                      <a class="page-link" href="{{article.previous_post.url}}">Previous Post</a>
+                    </li>
+                    {% endif %}
+                    {% if article.next_post %}
+                    <li class="page-item">
+                      <a class="page-link" href="{{article.next_post.url}}">Next Post</a>
+                    </li>
+                    {% endif %}
+                  </ul>
+                </nav>
+
+                <br>
+                <br>
+            {% if article.get_comments %}
+            <div class="entire-comments">
+               <p>Post Comments({{article.comment_count}})</p>
+               {% for comments in article.comments.all %}
+               <div class="post-comment">
+                  <div class="comment-img">
+                     {% if comments.user.author %}
+                        <img src="{{comments.user.author.Profile.url}}" alt="">
+                     {% else %}
+                        <img src="{% static 'img/news1.jpg' %}" alt="">
+                     {% endif %}
+                  </div>
+                  <div class="comment-content">
+                     <p style="color: aliceblue; font-size: 25px;">{{comments.user.username}}</p>
+                     <p>{{comments.time|timesince}}</p>
+                     <br>
+                     <p>{{comments.content}}</p>
+                  </div>
+               </div>
+               {% endfor %}
+            </div>
+            {% endif %}    
+               {% if user.is_authenticated %}
+               <div class="" style="width: 100%;">
+                  <div class="inner">
+                     
+                      <form action="" method="POST" style="width: 81.5%;">
+                          {% csrf_token %}
+                          <h3>Leave a comment</h3>
+                          {{form}}
+                          <div class="form-wrapper">
+                           
+                          </div>
+                          <button type="submit">Comment</button>
+              
+                      </form>
+                  </div>
+               </div>
+               {% endif %}
+                
+          </article>
+          <!-- AD REGION -->
+          
+       </div>
+       <!-- SIDEBAR -->             
+       <div class="s-12 l-3">
+
+         <form action="{% url 'main:search' %}">
+            {% csrf_token %}
+         <div class="mb-3">
+            <label for="search" class="form-label">Search</label>
+            <input name="search" type="text" class="form-control" id="search" >
+         </div>
+            <input type="submit" value="Search" class="btn btn-primary">
+         </form>
+         <br>
+
+          <aside>
+             <!-- NEWS 1 -->    
+             {% for posts in aside %}       
+             <img src="{{posts.image.url}}" alt="News 1">          
+             <div class="aside-block margin-bottom">
+                <a href="{% url 'main:blog_details' slug=posts.slug %}"><h3>{{posts.title}}</h3></a>
+                <p></p>
+             </div>
+             {% endfor %}
+             <!-- AD REGION --> 
+             <div class="advertising margin-bottom">
+                <img src="{% static 'img/banner.jpg' %}" alt="ad banner">         
+             </div>
+             <!-- LATEST POSTS -->
+             <div class="aside-block margin-bottom">
+                <h3>Latest posts</h3>
+               {% for recent in latest %}
+                <a class="latest-posts" href="{% url 'main:blog_details' slug=recent.slug %}">
+                   <h5>{{recent.title}}</h5>
+                  
+                </a>
+               {% endfor %}
+             </div>
+
+            
+
+          </aside>
+       </div>
+    </div>
+ </section>
+
+{% endblock %}

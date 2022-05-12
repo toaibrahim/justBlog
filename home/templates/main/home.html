@@ -1,0 +1,145 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block title %}Blog{% endblock %}
+
+{% block body %}
+
+      <!-- MAIN SECTION -->                  
+      <section id="home-section" class="line">
+        <div class="margin">
+           <!-- ARTICLES -->             
+           <div class="s-12 l-9">
+           
+              <!-- ARTICLE 1 -->  
+              {% for posts in page %}             
+              <article class="post-1 right-align line surface">
+                 <!-- image -->                 
+                 <div class="s-12 l-6 post-image">                   
+                    <a href="{% url 'main:blog_details' slug=posts.slug %}">
+                     
+                    <img src="{{posts.image.url|default_if_none:'#'}}" alt="Fashion 1">
+                     
+                    </a>                
+                 </div>
+                 <!-- text -->                 
+                 <div class="s-12 l-5 post-text">
+                    {% for cat in posts.category.all %}
+                    <a href="">
+                     <p class="category">{{cat}}</p>
+                    </a>
+                    {% endfor %}
+                    <br>
+                    <br>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'main:blog_details' slug=posts.slug %}">
+                       <h2>{{posts.title}}</h2>
+                       <!--<p>{{posts.created_at|timesince}} ago</p>-->
+                    </a>
+                    {% else %}
+                        <a href="{% url 'account:login' %}">
+                         <h2>{{posts.title}}</h2>
+                         <!--<p>{{posts.created_at|timesince}} ago</p>-->
+                        </a>
+                     {% endif %}
+                    <p></p>
+                 </div>
+                 <!-- date -->                 
+                 <div class="s-12 l-1 post-date">
+                    <p class="date">{{posts.created_at.date}}</p>
+                    <p class="month"></p>
+                 </div>
+                 
+                 <div class="edit-update">
+                     <div class="edit-update-first">
+                       <p>Views({{posts.view_count}})</p>
+                       <p>Comments({{posts.comment_count}})</p>
+                     </div>
+                     {% if request.user.is_staff %}
+                     <div class="edit-update-second">
+                       <a class="update" href="{% url 'main:post_update' slug=posts.slug %}">Update</a>
+                       <a class="delete" href="{% url 'main:post_delete' slug=posts.slug %}">Delete</a>
+                     </div>
+                     {% endif %}
+                 </div>
+              </article>
+              {% endfor %}
+
+              
+              <nav aria-label="..." style="background-color: #353b48;">
+               <ul class="pagination" style="padding: 20px 10px;">
+                  {% if page.has_previous %}
+                 <li class="page-item">
+                   <a class="page-link" href="{% url 'main:home' %}?page={{page.previous_page_number}}">Previous</a>
+                 </li>
+                 {% endif %}
+
+               <li class="page-item active" aria-current="page">
+                  <a class="page-link" href="">{{post_list.number}}</a>
+                </li>
+                 {% if page.has_next %}
+                 <li class="page-item">
+                   <a class="page-link" href="{% url 'main:home' %}?page={{page.next_page_number}}">Next</a>
+                 </li>
+                 {% endif %}
+               </ul>
+             </nav>
+             
+            <div class="line">
+               <div class="advertising horizontal newsletter">
+                  <form method="post">
+                     {% csrf_token %}
+                     <div class="mb-3">
+                       <label for="exampleInputEmail1" class="form-label">Email address</label>
+                       <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                     </div>
+                     <button type="submit" class="btn btn-primary">Subscribe</button>
+                   </form>        
+               </div>
+            </div>
+
+           </div>
+           <!-- SIDEBAR -->             
+           <div class="s-12 l-3">
+            
+               <form action="{% url 'main:search' %}">
+                  {% csrf_token %}
+               <div class="mb-3">
+                  <label for="search" class="form-label">Search</label>
+                  <input name="search" type="text" class="form-control" id="search" >
+               </div>
+                  <input type="submit" value="Search" class="btn btn-primary">
+               </form>
+            <br>
+              {% for posts in aside %}
+              <aside>
+                 <!-- NEWS 1 -->           
+                 <img src="{{posts.image.url}}" alt="News 1">          
+                 <div class="aside-block margin-bottom">
+                    <a href="{% url 'main:blog_details' slug=posts.slug %}"><h3>{{posts.title}}</h3></a>
+                    <p></p>
+                 </div>
+                 <!-- NEWS 2 -->           
+                 
+              </aside>
+              <br>
+              {% endfor %}
+
+               <aside style="background-color: #fff;padding: 15px 17px;">
+                  <!-- NEWS 1 -->           
+                  
+                  <h3>category</h3>
+                  {% for cat in category_count %}
+                  <div style="display: flex;justify-content: space-between;border-bottom:solid 1px #000 ; margin-bottom: 15px;">
+                  <a href=""><p style="padding: 3px 10px;">{{cat.category__title}}</p></a>
+                    <a href=""><p style="padding: 3px 10px;">({{cat.category__title__count}})</p></a> 
+                  
+                  </div>
+                  {% endfor %}
+                  <!-- NEWS 2 -->           
+
+               </aside>
+           </div>
+        </div>
+     </section>
+
+{% endblock %}
